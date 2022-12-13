@@ -11,8 +11,13 @@ title = "Run Puang"
 pygame.display.set_caption(title)
 white = (255,255,255)
 clock = pygame.time.Clock()
+font = pygame.font.SysFont("arial",30, True, True)
+font2 = pygame.font.SysFont("arial",20,False, False)
 
-
+####icon####
+pygame_icon = pygame.image.load("icon.jpg")
+pygame.display.set_icon(pygame_icon)
+############
 
 ######## 버튼 설정 시작 ########
 cpuimg = pygame.image.load("cpu.jpg")
@@ -40,6 +45,12 @@ class Puang(pygame.sprite.Sprite):
         images.append(pygame.image.load('2.jpg'))
         images.append(pygame.image.load('3.jpg'))
         images.append(pygame.image.load('4.jpg'))
+        images.append(pygame.image.load('5.jpg'))
+        images.append(pygame.image.load('6.jpg'))
+        images.append(pygame.image.load('7.jpg'))
+        images.append(pygame.image.load('8.jpg'))
+        images.append(pygame.image.load('9.jpg'))
+        images.append(pygame.image.load('0.jpg'))
 
         self.rect = pygame.Rect(position, size)
 
@@ -60,28 +71,56 @@ class Puang(pygame.sprite.Sprite):
 def cpuRun():
     player = Puang(position=(20, 30))
     all_sprites = pygame.sprite.Group(player)
-    FPS = psutil.cpu_percent(2)
-    print(FPS)
-    #running = True
-    #while running:
-    for i in range(0,10):
+    timenow=time.strftime('%x %X')
+    FPS = psutil.cpu_percent()
+    
+    if 0 < FPS <=5:
+        speed = 5
+    elif 5 < FPS <= 20:
+        speed = 10
+    elif 20 < FPS <= 40:
+        speed = 20
+    elif 40 < FPS <=60:
+        speed = 40
+    else:
+        speed = 80
+        
+    text = font.render("CPU usage : {}%".format(FPS), True, (0,0,0))
+    now = font2.render("time: {}".format(timenow),True,(0,0,0))
+    screen.blit(text, (30,375))
+    screen.blit(now, (30,410))
+    for i in range(0,speed*4):
         all_sprites.update()
         all_sprites.draw(screen)
         pygame.display.update()
-        clock.tick(FPS)
+        clock.tick(speed)
 
 def ramRun():
     player = Puang(position=(20, 30))
     all_sprites = pygame.sprite.Group(player)
+    timenow=time.strftime('%x %X')
     FPS = psutil.virtual_memory()[2]
-    print(FPS)    
-    #running = True
-    #while running:
-    for i in range(0,10):
+    
+    if 0 < FPS <= 45:
+        speed = 5
+    elif 45 < FPS <=50:
+        speed = 10
+    elif 50 < FPS <= 70:
+        speed = 20
+    elif 70 < FPS <= 85:
+        speed = 40
+    else:
+        speed = 80
+        
+    text = font.render("RAM usage : {}%".format(FPS), True, (0,0,0))
+    now = font2.render("time: {}".format(timenow),True,(0,0,0))
+    screen.blit(text, (30,375))
+    screen.blit(now, (30,410))
+    for i in range(0, speed*4):
         all_sprites.update()
         all_sprites.draw(screen)
         pygame.display.update()
-        clock.tick(FPS)
+        clock.tick(speed)
 
 ######## 푸앙이  설정 끝 ########
 
