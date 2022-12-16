@@ -1,38 +1,45 @@
 import pygame
-import button
-import puang
 import psutil
 import time
+import button
+import puang
 
+
+#basic setting
 pygame.init()
 
-size = [360, 720]
+size = [485, 300]
 screen = pygame.display.set_mode(size)
 gameDisplay = pygame.display.set_mode((size))
+
 title = "Run Puang"
 pygame.display.set_caption(title)
-white=(255,255,255)
+
+
+ground = pygame.image.load("ground.jpg")
+ground = pygame.transform.scale(ground, (485, 300))
+
+f = pygame.font.SysFont("neodgm_pro", 27, True, False)
+f2 = pygame.font.SysFont("neodgm_pro", 20, False, True)
+
 clock = pygame.time.Clock()
-f = pygame.font.SysFont("arial",20, True, True)
-f2 = pygame.font.SysFont("arial",15,False, False)
 
-
-####icon####
+#icon settings
 pygame_icon = pygame.image.load("icon.jpg")
 pygame.display.set_icon(pygame_icon)
-############
 
-######## 버튼 설정 시작 ########
+
+#button setting
 cpuimg = pygame.image.load("cpu.jpg")
 ramimg = pygame.image.load("ram.jpg")
 exitimg = pygame.image.load("exit.jpg")
 
-cpu_button = button.Button(150,150,20, 440, cpuimg)
-ram_button = button.Button(150,150,190, 440, ramimg)
-exit_button = button.Button(320,80,20, 600, exitimg)  
+cpu_button = button.Button(158, 66, 300, 43, cpuimg)
+ram_button = button.Button(158, 66, 300, 117, ramimg)
+exit_button = button.Button(158, 66, 300, 191, exitimg)  
 
-####
-####
+
+#message function
 def textmessage(a,b,c):
     if a==0:
         what = "CPU"
@@ -41,14 +48,17 @@ def textmessage(a,b,c):
     use = b
     text = f.render("{} usage : {}%".format(what,use), True, (0,0,0))
     now = f2.render("{}".format(c),True,(0,0,0))
-    screen.blit(text, (20,30))
-    screen.blit(now, (20,50))
+    screen.blit(text, (33,35))
+    screen.blit(now, (33,55))
 
+
+# main code
 run = True
 while run:
-    screen.fill(white)
+    screen.blit(ground, (0,0))
+    
     if cpu_button.draw(screen):
-        player = puang.Puang(position=(20, 30))
+        player = puang.cpuPuang(position=(30, 30))
         all_sprites = pygame.sprite.Group(player)
         timenow=time.strftime('%X %x')
         usage = psutil.cpu_percent()
@@ -72,7 +82,7 @@ while run:
             clock.tick(speed)
             
     if ram_button.draw(screen):
-        player = puang.Puang(position=(20, 30))
+        player = puang.ramPuang(position=(30, 30))
         all_sprites = pygame.sprite.Group(player)
         timenow=time.strftime('%X %x')
         usage = psutil.virtual_memory()[2]
