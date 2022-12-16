@@ -44,8 +44,6 @@ def textmessage(a,b,c):
     screen.blit(text, (20,30))
     screen.blit(now, (20,50))
 
-####
-
 run = True
 while run:
     screen.fill(white)
