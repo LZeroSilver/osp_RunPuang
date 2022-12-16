@@ -6,7 +6,7 @@ import time
 
 pygame.init()
 
-size = [485, 300]
+size = [360, 720]
 screen = pygame.display.set_mode(size)
 gameDisplay = pygame.display.set_mode((size))
 title = "Run Puang"
